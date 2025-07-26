@@ -1,7 +1,9 @@
 import express from "express"
 import mongoose from "mongoose"
-import router from "./routes/UserRoutes"
+import userRouter from "./routes/UserRoutes"
+import productRouter from "./routes/ProductRoutes"
 // import { server } from "typescript"
+import {seedInitialProducts} from "./services/ProductServices"
 
 
 const app = express()
@@ -16,6 +18,9 @@ mongoose
     .connect("mongodb://localhost:27017/ecomerce")
     .then(() => { console.log("connected successfully") })
     .catch((err)=> {console.log("failed to connect! ",err)})
+seedInitialProducts()
 
-app.use('/user',router)
+
+app.use('/user',userRouter)
+app.use('/product',productRouter)
 app.listen( port, ()=>{console.log("server is running at http://localhost:"+port)})
